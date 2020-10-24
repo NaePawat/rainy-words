@@ -1,7 +1,7 @@
-from words import Word
-from timer import Timer
-from player import Player
-from word_library import word_set
+from game.words import Word
+from game.timer import Timer
+from game.player import Player
+from game.word_library import word_set
 import random
 import pygame
 import re
@@ -126,6 +126,3 @@ class Game:
                 self.player_me.confirm_key = False
             pygame.display.update()
 
-
-game = Game()
-game.run()
