@@ -69,22 +69,22 @@ class Game:
                     pygame.quit()
                     quit()
                 elif event.type == pygame.KEYDOWN:
-                    if event.unicode != '\r' and event.unicode != '\b' and event.unicode.isalpha():
+                    if event.unicode.isalpha():
                         self.player_me.keystrokes += event.unicode
                     elif event.unicode == '\r':
                         self.player_me.confirm_key = True
+
             self.screen.fill(pygame.Color('white'))
             self.draw_score(self.player_me.score)
             self.draw_current_stroke(self.player_me.keystrokes)
 
             if len(word_mem) <= 1:
                 timer.tick()
-
-            if timer.time >= 90:
+            if 2 == random.randint(1, 60):
+                word_mem.append(new_word())
+            if len(word_mem) <= 1 and timer.time >= 90:
+                word_mem.append(new_word())
                 timer.reset()
-                word_mem.append(new_word())
-            elif len(word_mem) <= 1 and timer.time >= 90:
-                word_mem.append(new_word())
 
             removed_words = []
 
@@ -113,7 +113,7 @@ class Game:
                 else:
                     self.print_move_word(word)
 
-                if word.text_rect.bottomleft[1] > 720:
+                if word.text_rect.topleft[1] > 720:
                     removed_words.append(word)
                     continue
 
