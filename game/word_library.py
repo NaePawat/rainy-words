@@ -1129,7 +1129,7 @@ word_set = (
     "fuel",
     "full",
     "fully",
-    "fun",
+    "fuck",
     "function",
     "fund",
     "fundamental",
