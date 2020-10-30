@@ -14,6 +14,8 @@ class Word:
         self.word = word
         self.text_width, self.text_height = self.font.size(word)
         self.x_offset = random.randint(0, 1024 - self.text_width)
+        self.y_pos = 0
+        self.draw_vfx = 0
 
         self.matching_text = self.font.render("", True, black)
         self.matching_text_rect = self.matching_text.get_rect()

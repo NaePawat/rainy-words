@@ -1,8 +1,8 @@
 import pygame
 bongo_sprite = [
-    pygame.image.load('Assets/bongo_sprite/bongoup.png'), #0
-    pygame.image.load('Assets/bongo_sprite/bongodown.png'),#1
-    pygame.image.load('Assets/bongo_sprite/bongomeowup.png'),#2
+    pygame.image.load('Assets/bongo_sprite/bongoup.png'),
+    pygame.image.load('Assets/bongo_sprite/bongodown.png'),
+    pygame.image.load('Assets/bongo_sprite/bongomeowup.png'),
     pygame.image.load('Assets/bongo_sprite/bongomeowdown.png'),
     pygame.image.load('Assets/bongo_sprite/bongoDR.png'),
     pygame.image.load('Assets/bongo_sprite/bongomeowDR.png'),
