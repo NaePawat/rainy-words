@@ -87,6 +87,12 @@ class Game:
         score_text_rect.midbottom = (512, 710)
         self.screen.blit(score_text, score_text_rect)
 
+    def draw_name_stroke(self, current_stroke):
+        name_text = self.font.render(current_stroke, True, pygame.Color('black'))
+        name_text_rect = name_text.get_rect()
+        name_text_rect.topleft = (230, 250)
+        self.screen.blit(name_text, name_text_rect)
+
     def print_move_word(self, w):
         self.screen.blit(w.text, w.text_rect)
         w.text_rect.move_ip(0, w.fall_speed)
@@ -113,9 +119,40 @@ class Game:
 
     def insert_name(self):
         running = True
+        type_state = False
+        backspace_clock = Timer()
         while running:
+            backspace_clock.tick()
             self.screen.fill(pygame.Color('white'))
-            self.screen.blit()
+            self.screen.blit(pygame.transform.scale(bg_sprite[3], (self.width, self.height)), (0, 0))
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if 230 <= mouse_pos[0] <= 830 and 250 <= mouse_pos[1] <= 325:
+                        print('button clicked!')
+                        type_state = True
+                    else:
+                        type_state = False
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_BACKSPACE and len(
+                            self.player_me.keystrokes) > 0 and backspace_clock.time >= 2:
+                        backspace_clock.reset()
+                        self.player_me.keystrokes = self.player_me.keystrokes[:-1]
+                    if event.unicode.isalpha() and type_state:
+                        if len(self.player_me.keystrokes) == 10:
+                            pass
+                        else:
+                            self.player_me.keystrokes += event.unicode
+            mouse_pos = pygame.mouse.get_pos()
+            self.draw_text('Please insert your name:', 768, 200)
+            pygame.draw.rect(self.screen, (255, 255, 255), (300, 250, 450, 60))
+            pygame.draw.rect(self.screen, (255, 0, 255), (230, 250, 600, 75))
+            self.screen.blit(pygame.transform.scale(button_sprite[0], (600, 75)), (230, 250))
+            self.draw_name_stroke(self.player_me.keystrokes)
+            pygame.display.update()
+
     def lobby(self):
         intro = True
         while intro:
@@ -152,8 +189,7 @@ class Game:
         self.screen.blit(pygame.transform.scale(self.player_bongo[3], (100, 100)), (w.x_offset, y_offset))
 
     def display_VFX(self, w, frame):
-        self.screen.blit(pygame.transform.scale(self.player_bongo[frame], (300, 300)), w.text_rect.topleft)
-        print("current frame: " + str(frame))
+        self.screen.blit(pygame.transform.scale(self.player_bongo[frame], (300, 300)), (w.x_offset,w.y_pos))
 
     def run(self):
         clock = pygame.time.Clock()

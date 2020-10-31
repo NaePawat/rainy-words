@@ -14,5 +14,10 @@ bongo_sprite = [
 bg_sprite = [
     pygame.image.load('Assets/bg/skybg.png'),
     pygame.image.load('Assets/bg/keyboard.png'),
-    pygame.image.load('Assets/bg/lobby.jpg')
+    pygame.image.load('Assets/bg/lobby.jpg'),
+    pygame.image.load('Assets/bg/insertnamebg.png')
+]
+
+button_sprite = [
+    pygame.image.load('Assets/text_surface/black_text_box.png')
 ]
