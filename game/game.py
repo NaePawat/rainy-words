@@ -123,33 +123,43 @@ class Game:
         backspace_clock = Timer()
         while running:
             backspace_clock.tick()
+            keys = pygame.key.get_pressed()
             self.screen.fill(pygame.Color('white'))
             self.screen.blit(pygame.transform.scale(bg_sprite[3], (self.width, self.height)), (0, 0))
+            if keys[pygame.K_BACKSPACE] and len(self.player_me.keystrokes) > 0 and backspace_clock.time >= 2 and type_state:
+                backspace_clock.reset()
+                self.player_me.keystrokes = self.player_me.keystrokes[:-1]
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if 230 <= mouse_pos[0] <= 830 and 250 <= mouse_pos[1] <= 325:
-                        print('button clicked!')
+                        pygame.draw.rect(self.screen, (255, 0, 255), (230, 250, 600, 75))  # text button
+                        print('text button clicked!')
                         type_state = True
+                    elif 410 <= mouse_pos[0] <= 610 and 350 <= mouse_pos[1] <= 400:
+                        if type_state and len(self.player_me.keystrokes) > 0:
+                            print('confirm button clicked!')
+                            self.player_me.name = self.player_me.keystrokes
+                            print('Meow '+self.player_me.name+' has joined the fray!')
+                            self.player_me.keystrokes = ''
+                            self.lobby()
+                        else:
+                            print('hey fucker, what is your name?')
                     else:
                         type_state = False
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_BACKSPACE and len(
-                            self.player_me.keystrokes) > 0 and backspace_clock.time >= 2:
-                        backspace_clock.reset()
-                        self.player_me.keystrokes = self.player_me.keystrokes[:-1]
                     if event.unicode.isalpha() and type_state:
-                        if len(self.player_me.keystrokes) == 10:
+                        if len(self.player_me.keystrokes) == 20:
                             pass
                         else:
                             self.player_me.keystrokes += event.unicode
             mouse_pos = pygame.mouse.get_pos()
             self.draw_text('Please insert your name:', 768, 200)
-            pygame.draw.rect(self.screen, (255, 255, 255), (300, 250, 450, 60))
-            pygame.draw.rect(self.screen, (255, 0, 255), (230, 250, 600, 75))
-            self.screen.blit(pygame.transform.scale(button_sprite[0], (600, 75)), (230, 250))
+            pygame.draw.rect(self.screen, (255, 255, 255), (410, 350, 200, 50))  # confirm button
+            self.screen.blit(pygame.transform.scale(button_sprite[0], (600, 75)), (230, 250))  # text button texture
+            self.draw_text('confirm', 595, 360)
             self.draw_name_stroke(self.player_me.keystrokes)
             pygame.display.update()
 
@@ -162,7 +172,7 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
-            self.draw_text('Player 1:', 120, 240)
+            self.draw_text('Player 1: '+ self.player_me.name, 120, 240)
             self.draw_text('Player 2:', 760, 240)
             # set 1
             # self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bongo_sprite[1], (1024, 1024)), 12.5),
