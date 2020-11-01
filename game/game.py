@@ -110,7 +110,7 @@ class Game:
     def draw_name_stroke(self, current_stroke):
         name_text = self.font.render(current_stroke, True, pygame.Color('black'))
         name_text_rect = name_text.get_rect()
-        name_text_rect.topleft = (230, 250)
+        name_text_rect.topleft = (290, 270)
         self.screen.blit(name_text, name_text_rect)
 
     def print_move_word(self, w):
@@ -164,7 +164,7 @@ class Game:
                             self.player_me.name = self.player_me.keystrokes
                             print('Meow '+self.player_me.name+' has joined the fray!')
                             self.player_me.keystrokes = ''
-                            self.lobby()
+                            self.waiting()
                         else:
                             print('hey fucker, what is your name?')
                     else:
@@ -183,17 +183,17 @@ class Game:
             self.draw_name_stroke(self.player_me.keystrokes)
             pygame.display.update()
 
-    def lobby(self):
-        intro = True
-        while intro:
-            self.screen.fill(pygame.Color('white'))
-            self.screen.blit(pygame.transform.scale(bg_sprite[2], (self.width, self.height)), (0, 0))
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    quit()
-            self.draw_text('Player 1: '+ self.player_me.name, 120, 240)
-            self.draw_text('Player 2:', 760, 240)
+    #def lobby(self):
+    #    intro = True
+    #    while intro:
+    #        self.screen.fill(pygame.Color('white'))
+    #        self.screen.blit(pygame.transform.scale(bg_sprite[2], (self.width, self.height)), (0, 0))
+    #        for event in pygame.event.get():
+    #            if event.type == pygame.QUIT:
+    #                pygame.quit()
+    #                quit()
+    #        self.draw_text('Player 1: '+ self.player_me.name, 120, 240)
+    #        self.draw_text('Player 2:', 760, 240)
             # set 1
             # self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bongo_sprite[1], (1024, 1024)), 12.5),
             #                 (-40, 40))  # mid bottom
@@ -214,24 +214,24 @@ class Game:
             #                 (-550, -180))  # left
 
 
-            pygame.display.update()
+    #        pygame.display.update()
 
 
     def waiting(self):
         intro = True
         while intro:
             self.screen.fill(pygame.Color('white'))
-            self.screen.blit(pygame.transform.scale(bg_sprite[3], (self.width, self.height)), (0, 0))
+            self.screen.blit(pygame.transform.scale(bg_sprite[5], (self.width, self.height)), (0, 0))
             self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bg_sprite[4], (750,400)), 0), (40,50))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     quit()
-            self.draw_text_waiting('Hello ! , ', 300, 120)
+            self.draw_text_waiting('Hello ! , ' + self.player_me.name, 400, 120)
             self.draw_text_waiting('Waiting for your opponent...', 750, 200)
             self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bongo_sprite[1], (1024, 1024)), 12.5),
                              (120, 40))
-            self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bg_sprite[5], (300, 300)), -12.5),
+            self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bg_sprite[6], (300, 300)), -12.5),
                              (600, 300))
 
             pygame.display.update()

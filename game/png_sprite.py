@@ -15,7 +15,11 @@ bg_sprite = [
     pygame.image.load('Assets/bg/skybg.png'),
     pygame.image.load('Assets/bg/keyboard.png'),
     pygame.image.load('Assets/bg/lobby.jpg'),
-    pygame.image.load('Assets/bg/insertnamebg.png')
+    pygame.image.load('Assets/bg/insertnamebg.png'),
+    pygame.image.load('Assets/bg/textbox8.png'),
+    pygame.image.load('Assets/bg/waiting.png'),
+    pygame.image.load('Assets/bg/hatf.png')
+
 ]
 
 button_sprite = [
