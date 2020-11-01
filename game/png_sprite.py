@@ -25,3 +25,18 @@ bg_sprite = [
 button_sprite = [
     pygame.image.load('Assets/text_surface/black_text_box.png')
 ]
+
+boom_sprite = [
+    pygame.image.load('Assets/boom_sprite/b1.png'),
+    pygame.image.load('Assets/boom_sprite/b2.png'),
+    pygame.image.load('Assets/boom_sprite/b3.png'),
+    pygame.image.load('Assets/boom_sprite/b4.png'),
+    pygame.image.load('Assets/boom_sprite/b5.png'),
+    pygame.image.load('Assets/boom_sprite/b6.png'),
+    pygame.image.load('Assets/boom_sprite/b7.png'),
+    pygame.image.load('Assets/boom_sprite/b8.png'),
+    pygame.image.load('Assets/boom_sprite/b9.png'),
+    pygame.image.load('Assets/boom_sprite/b10.png'),
+    pygame.image.load('Assets/boom_sprite/b11.png'),
+    pygame.image.load('Assets/boom_sprite/b12.png')
+]

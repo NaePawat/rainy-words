@@ -21,6 +21,7 @@ class Game:
         self.font = pygame.font.Font('Assets/font/pixelart.ttf', 32)
         self.player_me = Player('Mon')
         self.player_bongo = bongo_sprite
+        self.vfx_boom = boom_sprite
         self.player_x = 50
         self.player_y = 420
         self.num_sprite = 0
@@ -149,13 +150,13 @@ class Game:
             if keys[pygame.K_BACKSPACE] and len(self.player_me.keystrokes) > 0 and backspace_clock.time >= 2 and type_state:
                 backspace_clock.reset()
                 self.player_me.keystrokes = self.player_me.keystrokes[:-1]
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+            for event in pygame.event.get(): #ดูว่าเกิดeventอะไรขึ้น
+                if event.type == pygame.QUIT: #type คือการกดคีย์บอร์ด #quit is press on esc
                     pygame.quit()
                     quit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.type == pygame.MOUSEBUTTONDOWN: #mouse button down is press on mouse
                     if 230 <= mouse_pos[0] <= 830 and 250 <= mouse_pos[1] <= 325:
-                        pygame.draw.rect(self.screen, (255, 0, 255), (230, 250, 600, 75))  # text button
+                        pygame.draw.rect(self.screen, (255, 0, 255), (230, 250, 600, 75))  # text button #(surface, color,(x,y,scale x, scale y)
                         print('text button clicked!')
                         type_state = True
                     elif 410 <= mouse_pos[0] <= 610 and 350 <= mouse_pos[1] <= 400:
@@ -169,16 +170,16 @@ class Game:
                             print('hey fucker, what is your name?')
                     else:
                         type_state = False
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYDOWN: #keydown is press on keyboard
                     if event.unicode.isalpha() and type_state:
                         if len(self.player_me.keystrokes) == 20:
-                            pass
+                            pass  #same as break but pass use with if,else
                         else:
-                            self.player_me.keystrokes += event.unicode
-            mouse_pos = pygame.mouse.get_pos()
+                            self.player_me.keystrokes += event.unicode  # unicode is article
+            mouse_pos = pygame.mouse.get_pos()  # get tuple (x,y) want x ---> mouse_pos[0]
             self.draw_text('Please insert your name:', 768, 200)
             pygame.draw.rect(self.screen, (255, 255, 255), (410, 350, 200, 50))  # confirm button
-            self.screen.blit(pygame.transform.scale(button_sprite[0], (600, 75)), (230, 250))  # text button texture
+            self.screen.blit(pygame.transform.scale(button_sprite[0], (600, 75)), (230, 250))  # text button texture #(sprite,scale,x-y position)
             self.draw_text('confirm', 595, 360)
             self.draw_name_stroke(self.player_me.keystrokes)
             pygame.display.update()
@@ -213,7 +214,6 @@ class Game:
             # self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bongo_sprite[1], (1024, 1024)), -80),
             #                 (-550, -180))  # left
 
-
     #        pygame.display.update()
 
 
@@ -241,15 +241,7 @@ class Game:
         self.screen.blit(pygame.transform.scale(self.player_bongo[3], (100, 100)), (w.x_offset, y_offset))
 
     def display_VFX(self, w, frame):
-        self.screen.blit(pygame.transform.scale(self.player_bongo[frame], (300, 300)), (w.x_offset,w.y_pos))
-
-
-    def display_select_word(self, w):
-        y_offset = w.y_pos - 100
-        self.screen.blit(pygame.transform.scale(self.player_bongo[3], (100, 100)), (w.x_offset, y_offset))
-
-    def display_VFX(self, w, frame):
-        self.screen.blit(pygame.transform.scale(self.player_bongo[frame], (300, 300)), (w.x_offset,w.y_pos))
+        self.screen.blit(pygame.transform.scale(self.vfx_boom[frame], (200, 200)), (w.x_offset-50, w.y_pos-60))
 
     def run(self):
         clock = pygame.time.Clock()
@@ -321,7 +313,6 @@ class Game:
 
                 if self.player_me.keystrokes == word.word and self.player_me.confirm_key:
                     self.erase_word(word)
-                    self.draw_boom(word)
                     self.player_me.score += 1
                     removed_words.append(word)
                     record_remove_words.append(word)
@@ -349,9 +340,9 @@ class Game:
                     continue
 
             for word in record_remove_words:
-                print(word.word)
+                print(word.word)#คำที่ตกลงมา
                 self.display_VFX(word, word.draw_vfx)
-                if word.draw_vfx == 6:
+                if word.draw_vfx == 11:
                     word.draw_vfx = 0
                     record_remove_words.remove(word)
                     print("finish " + word.word)
