@@ -24,6 +24,8 @@ class Word:
         self.text_rect = self.text.get_rect()
         self.text_rect.topleft = (self.x_offset, 0)
 
+        self.y_pos = 0
+
     def match_text(self, span):
         start, end = span
         matching_word = self.word[start:end]

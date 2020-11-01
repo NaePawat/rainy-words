@@ -23,6 +23,7 @@ class Game:
         self.player_bongo = bongo_sprite
         self.player_x = 50
         self.player_y = 420
+        self.num_sprite = 0
         # self.ani_state = False
         # self.ani_clock = Timer()
         self.draw_main_state = 0
@@ -46,6 +47,9 @@ class Game:
     #        if self.ani_clock.time >= 3:
     #            self.ani_clock.reset()
     #            self.ani_state = False
+    def draw_bongo_cat_flip(self, png):
+        self.screen.blit(pygame.transform.flip(pygame.transform.scale(png, (300, 300)), True, False), (670, 420))
+
 
     def bongo_animation(self, state, event):
         if event.type == pygame.KEYDOWN:
@@ -63,8 +67,24 @@ class Game:
                     self.draw_bongo_cat(state[6])
                 self.draw_index += 1
 
+    #def boom_animation(self, state ):
+       # if event.type == pygame.KEYDOWN:
+         #   if self.player_me.keystrokes == word.word and self.player_me.confirm_key and event.key == pygame.K_ENTER:
+              #  self.draw_boom(state[1])
+
+
+
     def draw_text(self, text, xpos, ypos):
         text_a = self.font.render(text, True, pygame.Color('black'))
+        text_a_rect = text_a.get_rect()
+        text_a_rect.topright = (xpos, ypos)
+        self.screen.blit(text_a, text_a_rect)
+
+    def draw_text_waiting(self, text, xpos, ypos):
+        font = pygame.font.Font("Fonts/pixelart.ttf", 35)
+        #font = pygame.font.Font("pixelfont", 40, bold = True)
+        text_a = font.render(text, True, pygame.Color(102, 0, 102))
+
         text_a_rect = text_a.get_rect()
         text_a_rect.topright = (xpos, ypos)
         self.screen.blit(text_a, text_a_rect)
@@ -192,7 +212,37 @@ class Game:
             #                 (-620, -610))  # top left
             # self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bongo_sprite[1], (1024, 1024)), -80),
             #                 (-550, -180))  # left
+
+
             pygame.display.update()
+
+
+    def waiting(self):
+        intro = True
+        while intro:
+            self.screen.fill(pygame.Color('white'))
+            self.screen.blit(pygame.transform.scale(bg_sprite[3], (self.width, self.height)), (0, 0))
+            self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bg_sprite[4], (750,400)), 0), (40,50))
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+            self.draw_text_waiting('Hello ! , ', 300, 120)
+            self.draw_text_waiting('Waiting for your opponent...', 750, 200)
+            self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bongo_sprite[1], (1024, 1024)), 12.5),
+                             (120, 40))
+            self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bg_sprite[5], (300, 300)), -12.5),
+                             (600, 300))
+
+            pygame.display.update()
+
+    def display_select_word(self, w):
+        y_offset = w.y_pos - 100
+        self.screen.blit(pygame.transform.scale(self.player_bongo[3], (100, 100)), (w.x_offset, y_offset))
+
+    def display_VFX(self, w, frame):
+        self.screen.blit(pygame.transform.scale(self.player_bongo[frame], (300, 300)), (w.x_offset,w.y_pos))
+
 
     def display_select_word(self, w):
         y_offset = w.y_pos - 100
@@ -271,6 +321,7 @@ class Game:
 
                 if self.player_me.keystrokes == word.word and self.player_me.confirm_key:
                     self.erase_word(word)
+                    self.draw_boom(word)
                     self.player_me.score += 1
                     removed_words.append(word)
                     record_remove_words.append(word)
