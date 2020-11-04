@@ -87,6 +87,24 @@ class Game:
         text_a = font.render(text, True, pygame.Color(102, 0, 102))
 
         text_a_rect = text_a.get_rect()
+        text_a_rect.topleft = (xpos, ypos)
+        self.screen.blit(text_a, text_a_rect)
+
+    def draw_text_result(self, text, xpos, ypos):
+        font = pygame.font.Font("Fonts/pixelart.ttf", 50)
+        #font = pygame.font.Font("pixelfont", 40, bold = True)
+        text_a = font.render(text, True, pygame.Color(255,255,255))
+
+        text_a_rect = text_a.get_rect()
+        text_a_rect.topright = (xpos, ypos)
+        self.screen.blit(text_a, text_a_rect)
+
+    def draw_text_result_win(self, text, xpos, ypos):
+        font = pygame.font.Font("Fonts/pixelart.ttf", 50)
+        #font = pygame.font.Font("pixelfont", 40, bold = True)
+        text_a = font.render(text, True, pygame.Color(0,0,0))
+
+        text_a_rect = text_a.get_rect()
         text_a_rect.topright = (xpos, ypos)
         self.screen.blit(text_a, text_a_rect)
 
@@ -228,13 +246,155 @@ class Game:
                     pygame.quit()
                     quit()
             self.draw_text_waiting('Hello ! , ' + self.player_me.name, 400, 120)
-            self.draw_text_waiting('Waiting for your opponent...', 750, 200)
+            self.draw_text_waiting('Waiting for your opponent...(1/2)', 750, 200)
+            #self.draw_text_waiting('1 - 2', 700, 250)
             self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bongo_sprite[1], (1024, 1024)), 12.5),
                              (120, 40))
             self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bg_sprite[6], (300, 300)), -12.5),
                              (600, 300))
 
             pygame.display.update()
+
+    def result(self):
+        scoreA = 15 # A is me
+        scoreB = 10
+         #if player_me.score > player_you.score:
+        if scoreA < scoreB:
+            running = True
+            while running:
+                keys = pygame.key.get_pressed()
+                self.screen.fill(pygame.Color('white'))
+                self.screen.blit(pygame.transform.scale(bg_sprite[7], (self.width, self.height)), (0, 0))
+                self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bg_sprite[8], (600, 200)), 0), (200, 50))
+                self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bongo_sprite[9], (500, 250)), 0), (300, 480))
+                self.draw_text_result('YOU LOSE', 650, 120)
+                self.draw_text_result('SCORE: ' + str(self.player_me.score), 645, 300)
+                self.screen.blit(pygame.transform.rotate(pygame.transform.scale(button_sprite[1], (280, 98)), 0), (190, 400))
+                self.screen.blit(pygame.transform.rotate(pygame.transform.scale(button_sprite[2], (350, 130)), 0), (530, 390))
+
+                for event in pygame.event.get():  # ดูว่าเกิดeventอะไรขึ้น
+                    if event.type == pygame.QUIT:  # type คือการกดคีย์บอร์ด #quit is press on esc
+                        pygame.quit()
+                        quit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:  # mouse button down is press on mouse
+                        if 190 <= mouse_pos1[0] <= 470 and 400 <= mouse_pos1[1] <= 498:
+                            #pygame.draw.rect(self.screen, (255, 0, 255),
+                                      #       (230, 250, 600, 75))  # text button #(surface, color,(x,y,scale x, scale y)
+                            print('replay button clicked!')
+                            self.waiting()
+                            type_state_1 = True
+                            if type_state_1:
+                                print('restart to lobby')
+                                self.waiting() #แก้ตรงนี้ไป lobby
+                            else:
+                                print('stay the same')
+
+                        elif 530 <= mouse_pos2[0] <= 880 and 390 <= mouse_pos2[1] <= 520:
+                            print('exit button clicked!')
+                            type_state_2 = True
+
+                            if type_state_2:
+                                pygame.quit()
+                                quit()
+
+
+
+                mouse_pos1 = pygame.mouse.get_pos()  # get tuple (x,y) want x ---> mouse_pos[0]
+                mouse_pos2 = pygame.mouse.get_pos()
+                pygame.display.update()
+        if scoreA > scoreB:
+            running = True
+            while running:
+                keys = pygame.key.get_pressed()
+                self.screen.fill(pygame.Color('white'))
+                self.screen.blit(pygame.transform.scale(bg_sprite[10], (self.width, self.height)), (0, 0))
+                self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bg_sprite[11], (390, 200)), 0), (325, 50))
+                self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bongo_sprite[0], (700, 700)), 13),(165, 242))
+                self.draw_text_result_win('YOU WIN', 655, 120)
+                self.draw_text_result('SCORE: ' + str(self.player_me.score), 645, 300)
+                self.screen.blit(pygame.transform.rotate(pygame.transform.scale(button_sprite[1], (280, 98)), 0),
+                                 (190, 400))
+                self.screen.blit(pygame.transform.rotate(pygame.transform.scale(button_sprite[2], (350, 130)), 0),
+                                 (530, 390))
+
+                for event in pygame.event.get():  # ดูว่าเกิดeventอะไรขึ้น
+                    if event.type == pygame.QUIT:  # type คือการกดคีย์บอร์ด #quit is press on esc
+                        pygame.quit()
+                        quit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:  # mouse button down is press on mouse
+                        if 190 <= mouse_pos1[0] <= 470 and 400 <= mouse_pos1[1] <= 498:
+                            # pygame.draw.rect(self.screen, (255, 0, 255),
+                            #       (230, 250, 600, 75))  # text button #(surface, color,(x,y,scale x, scale y)
+                            print('replay button clicked!')
+                            self.waiting()
+                            type_state_1 = True
+                            if type_state_1:
+                                print('restart to lobby')
+                                self.waiting()  # แก้ตรงนี้ไป lobby
+                            else:
+                                print('stay the same')
+
+                        elif 530 <= mouse_pos2[0] <= 880 and 390 <= mouse_pos2[1] <= 520:
+                            print('exit button clicked!')
+                            type_state_2 = True
+
+                            if type_state_2:
+                                pygame.quit()
+                                quit()
+
+                mouse_pos1 = pygame.mouse.get_pos()  # get tuple (x,y) want x ---> mouse_pos[0]
+                mouse_pos2 = pygame.mouse.get_pos()
+                pygame.display.update()
+
+        if scoreA == scoreB:
+            running = True
+            while running:
+                keys = pygame.key.get_pressed()
+                self.screen.fill(pygame.Color('white'))
+                self.screen.blit(pygame.transform.scale(bg_sprite[12], (self.width, self.height)), (0, 0))
+                self.screen.blit(pygame.transform.rotate(pygame.transform.scale(bg_sprite[13], (500, 200)), 0),
+                                 (255, 50))
+                self.draw_text_result('DRAW', 610, 120)
+                self.draw_text_result('SCORE: ' + str(self.player_me.score), 645, 300)
+                self.screen.blit(pygame.transform.rotate(pygame.transform.scale(button_sprite[1], (280, 98)), 0),
+                                 (190, 400))
+                self.screen.blit(pygame.transform.rotate(pygame.transform.scale(button_sprite[2], (350, 130)), 0),
+                                 (530, 390))
+
+                for event in pygame.event.get():  # ดูว่าเกิดeventอะไรขึ้น
+                    if event.type == pygame.QUIT:  # type คือการกดคีย์บอร์ด #quit is press on esc
+                        pygame.quit()
+                        quit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:  # mouse button down is press on mouse
+                        if 190 <= mouse_pos1[0] <= 470 and 400 <= mouse_pos1[1] <= 498:
+                            # pygame.draw.rect(self.screen, (255, 0, 255),
+                            #       (230, 250, 600, 75))  # text button #(surface, color,(x,y,scale x, scale y)
+                            print('replay button clicked!')
+                            self.waiting()
+                            type_state_1 = True
+                            if type_state_1:
+                                print('restart to lobby')
+                                self.waiting()  # แก้ตรงนี้ไป lobby
+                            else:
+                                print('stay the same')
+
+                        elif 530 <= mouse_pos2[0] <= 880 and 390 <= mouse_pos2[1] <= 520:
+                            print('exit button clicked!')
+                            type_state_2 = True
+
+                            if type_state_2:
+                                pygame.quit()
+                                quit()
+
+                mouse_pos1 = pygame.mouse.get_pos()  # get tuple (x,y) want x ---> mouse_pos[0]
+                mouse_pos2 = pygame.mouse.get_pos()
+                pygame.display.update()
+
+
+
+
+
+
 
     def display_select_word(self, w):
         y_offset = w.y_pos - 100
